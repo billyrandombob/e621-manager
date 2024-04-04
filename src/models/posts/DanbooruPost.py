@@ -1,11 +1,11 @@
 from src.models.posts.Post import Post
 
-class AIBooruPost(Post):
+class DanbooruPost(Post):
     def __init__(self, file_path, metadata):
         super().__init__(file_path)
         
-        self.category = 'aibooru'
-        self.source = '{0}%0Ahttps://aibooru.online/posts/{0}'.format(self.source, metadata['id'])
+        self.category = 'danbooru'
+        self.source = '{0}%0Ahttps://danbooru.donmai.us/posts/{0}'.format(self.source, metadata['id'])
         
         if metadata['rating'] == 'g':
             self.rating = 's'
@@ -18,6 +18,5 @@ class AIBooruPost(Post):
         
         self.tags = metadata['tag_string'].split()
         self.tags.append(self.category)
-        self.prepend_prefix('aib')
+        self.prepend_prefix('dan')
         self.clean_tags()
-        
