@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import src.post_manager as pm
+import src.tag_manager as tm
+import src.util_manager as um
 from os import path
 from pathlib import Path
 import sys
