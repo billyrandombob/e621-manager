@@ -19,7 +19,7 @@ class Post:
     def prepend_prefix(self, prefix: str):
         new_tags = []
         for tag in self.tags:
-            prefixed_tag = "<<{0}>>{1}".format(prefix, tag)
+            prefixed_tag = "<{0}>{1}".format(prefix, tag)
             new_tags.append(prefixed_tag)
         self.tags = new_tags
         

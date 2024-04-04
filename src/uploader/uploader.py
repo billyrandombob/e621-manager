@@ -1,5 +1,6 @@
 from os import path, walk
 from pathlib import Path
+import time
 import src.services.post_service as ps
 
 from src.factories.PostFactory import PostFactory
@@ -85,6 +86,7 @@ def upload_directory(config):
                 print(response.text)
                 success = True
                 count = count + 1
+                time.sleep(0.2)
 
     
 def upload_file(config):
