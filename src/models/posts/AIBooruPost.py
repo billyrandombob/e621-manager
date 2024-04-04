@@ -5,7 +5,7 @@ class AIBooruPost(Post):
         super().__init__(file_path)
         
         self.category = 'aibooru'
-        self.source = '{0}%0Ahttps://aibooru.online/posts/{0}'.format(self.source, metadata['id'])
+        self.source = '{0}%0Ahttps://aibooru.online/posts/{1}'.format(self.source, metadata['id'])
         
         if metadata['rating'] == 'g':
             self.rating = 's'

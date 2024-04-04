@@ -5,7 +5,7 @@ class SankakuPost(Post):
         super().__init__(file_path)
         
         self.category = 'sankaku'
-        self.source = '{0}%0Ahttps://chan.sankakucomplex.com/post/show/{0}'.format(self.source, metadata['id'])
+        self.source = '{0}%0Ahttps://chan.sankakucomplex.com/post/show/{1}'.format(self.source, metadata['id'])
         
         if metadata['rating'] == 's':
             self.rating = 's'

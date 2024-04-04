@@ -5,7 +5,7 @@ class DanbooruPost(Post):
         super().__init__(file_path)
         
         self.category = 'danbooru'
-        self.source = '{0}%0Ahttps://danbooru.donmai.us/posts/{0}'.format(self.source, metadata['id'])
+        self.source = '{0}%0Ahttps://danbooru.donmai.us/posts/{1}'.format(self.source, metadata['id'])
         
         if metadata['rating'] == 'g':
             self.rating = 's'
