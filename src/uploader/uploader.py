@@ -6,14 +6,15 @@ from src.factories.PostFactory import PostFactory
 
 YES_NO = ['y', 'Y', 'n', 'N']
 RATINGS = ['s', 'e', 'u', 'q', 'safe', 'explicit', 'questionable', 'suggestive']
-VALID_EXTENSIONS = ['.mp4', '.webm', '.jpg', '.jpeg', '.gif']
+VALID_EXTENSIONS = ['.mp4', '.webm', '.jpg', '.jpeg', '.gif', '.png']
 
 def get_rating():
-    selection = ''
-    while selection not in RATINGS:
+    selection = None
+    while selection not in RATINGS and selection != '':
         print('Set rating (leave blank for default/metadata value)')
         print('Options: safe(s) / questionable(q) / suggestive(u) / explicit(e)')
         selection = input('Rating: ').lower().strip()
+        print('Selection is empty string: {0}'.format(selection == ''))
         
     selection = selection
     
@@ -48,7 +49,6 @@ def get_files(dir_str: str):
                 file_path = path.join(dirpath, filename)
                 file, extension = path.splitext(file_path)
 
-                print('Extension: {0}'.format(extension))
                 if extension.lower() in VALID_EXTENSIONS:
                     files.append(file_path)
         files.sort()
@@ -63,7 +63,6 @@ def upload_directory(config):
     files = get_files(dir_str)
     
     if files:
-        
         metadata = include_metadata()
         extra_tags = input('Add tags: ')
         rating = get_rating()
@@ -79,6 +78,8 @@ def upload_directory(config):
                 
                 post_factory = PostFactory()
                 post = post_factory.create(file, metadata, rating, extra_tags, source)
+                
+                
                 
                 response = ps.create_post(config, post, source)
                 print(response.text)

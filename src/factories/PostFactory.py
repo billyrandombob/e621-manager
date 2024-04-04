@@ -1,9 +1,11 @@
 import json
+from src.models.posts.AIBooruPost import AIBooruPost
+from src.models.posts.SexComPost import SexComPost
 from src.models.posts.Post import Post
-from src.models.posts.SexComPost import *
 
 
 class PostFactory(object):
+    
     def create_metadata_item(self, file_path):
         try:
             with open('{0}.json'.format(file_path), 'r') as meta_file:
@@ -15,6 +17,8 @@ class PostFactory(object):
 
         category = metadata['category']
         
+        if category == 'aibooru':
+            return AIBooruPost(file_path, metadata)
         if category == 'sexcom':
             return SexComPost(file_path, metadata)
         
