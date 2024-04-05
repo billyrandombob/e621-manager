@@ -69,8 +69,8 @@ def upload_directory(config):
         rating = get_rating()
         total_files = len(files)
         source = None
+        max_retries = config['max_retries']
         
-        wait_time = 1
         count = 1
         for file in files:
             time.sleep(0.2)
@@ -78,29 +78,30 @@ def upload_directory(config):
             post_factory = PostFactory()
             post = post_factory.create(file, metadata, rating, extra_tags, source)
             
+            wait_time = 1
             retries = 0
             success = False
             while success == False:
                 response = ps.create_post(config, post, source)
                 if response.status_code == 200:
-                    print('Successfully created')
+                    print('\tSuccessfully created')
                     success = True
                     count = count + 1
                 elif '"reason":"duplicate"' in response.text:
-                    print('Duplicate post. Skipping...')
+                    print('\tDuplicate post. Skipping...')
                     success = True
-                    count = count + 1
+                    count += 1
                 else:
-                    print('Failed to upload:\n{0}'.format(response.text))
                     success = False
                     retries += 1
                     
-                    if retries >= 3:
+                    if retries > max_retries:
                         success = True
-                        print('Failed to upload afte 3 retries. Skipping...')
+                        print('\tFailed to upload after {0} retries.\n\t{1}\n\tSkipping...'.format(max_retries, response.text))
+                        count += 1
                     else:
                         wait_time = wait_time * retries
-                        print('Failed to upload:\n{0}\nRetry {1}/3 after {2} seconds'.format(response.text, retries, wait_time))
+                        print('\tFailed to upload:\n\t{0}\n\tRetry {1}/{2} after {3} seconds'.format(response.text, retries, max_retries, wait_time))
                         time.sleep(wait_time)
 
     
