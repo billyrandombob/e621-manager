@@ -1,4 +1,5 @@
 import json
+from src.models.posts.SubscribestarPost import SubscribestarPost
 from src.models.posts.SankakuPost import SankakuPost
 from src.models.posts.DanbooruPost import DanbooruPost
 from src.models.posts.AIBooruPost import AIBooruPost
@@ -27,6 +28,8 @@ class PostFactory(object):
             return SankakuPost(file_path, metadata)
         if category == 'sexcom':
             return SexComPost(file_path, metadata)
+        if category == 'subscribestar':
+            return SubscribestarPost(file_path, metadata)
         
         print('No metadata parser found for {0}. Using generic metadata.'.format(category))
         return Post(file_path)
