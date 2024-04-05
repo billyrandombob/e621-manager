@@ -1,6 +1,8 @@
 from os import path, walk
 from pathlib import Path
 import time
+
+from termcolor import colored
 import src.services.post_service as ps
 
 from src.factories.PostFactory import PostFactory
@@ -15,7 +17,6 @@ def get_rating():
         print('Set rating (leave blank for default/metadata value)')
         print('Options: safe(s) / questionable(q) / suggestive(u) / explicit(e)')
         selection = input('Rating: ').lower().strip()
-        print('Selection is empty string: {0}'.format(selection == ''))
         
     selection = selection
     
@@ -84,11 +85,11 @@ def upload_directory(config):
             while success == False:
                 response = ps.create_post(config, post, source)
                 if response.status_code == 200:
-                    print('\tSuccessfully created')
+                    print(colored('Successfully created', 'green'))
                     success = True
                     count = count + 1
                 elif '"reason":"duplicate"' in response.text:
-                    print('\tDuplicate post. Skipping...')
+                    print(colored('Duplicate post. Skipping...', 'yellow'))
                     success = True
                     count += 1
                 else:
@@ -97,11 +98,17 @@ def upload_directory(config):
                     
                     if retries > max_retries:
                         success = True
-                        print('\tFailed to upload after {0} retries.\n\t{1}\n\tSkipping...'.format(max_retries, response.text))
+                        print(colored(
+                            'Failed to upload after {0} retries.\n\t{1}\n\tSkipping...'
+                            .format(max_retries, response.text), 
+                            'red'))
                         count += 1
                     else:
                         wait_time = wait_time * retries
-                        print('\tFailed to upload:\n\t{0}\n\tRetry {1}/{2} after {3} seconds'.format(response.text, retries, max_retries, wait_time))
+                        print(colored(
+                            'Failed to upload:\n\t{0}\nRetry {1}/{2} after {3} seconds'
+                            .format(response.text, retries, max_retries, wait_time),
+                            'red'))
                         time.sleep(wait_time)
 
     
@@ -119,4 +126,4 @@ def upload_file(config):
         
         
     else:
-        print('File Not Found!')
+        print(colored('File Not Found!'), 'red')
