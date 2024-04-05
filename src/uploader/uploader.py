@@ -64,7 +64,7 @@ def get_files(dir_str: str):
 def get_start():
     start = ''
     try:
-        start = input('Start at: ')
+        start = input('Start at (blank = 1): ')
         return int(start) - 1
     except:
         if start.strip().lower() == '':
