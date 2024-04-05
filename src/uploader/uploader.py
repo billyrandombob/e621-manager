@@ -1,3 +1,4 @@
+from itertools import islice
 from os import path, walk
 from pathlib import Path
 import time
@@ -59,12 +60,26 @@ def get_files(dir_str: str):
     else:
         print('No files found')
         return None
+    
+def get_start():
+    start = ''
+    try:
+        start = input('Start at: ')
+        return int(start) - 1
+    except:
+        if start.strip().lower() == '':
+            print(colored('Starting at file 1', 'green'))
+        else:
+            print(colored('Invalid number. Starting at 1', 'red'))
+        return 0
+    
 
 def upload_directory(config):
     dir_str = input('Directory: ')
     files = get_files(dir_str)
     
     if files:
+        start = get_start()
         metadata = include_metadata()
         extra_tags = input('Add tags: ')
         rating = get_rating()
@@ -72,8 +87,8 @@ def upload_directory(config):
         source = None
         max_retries = config['max_retries']
         
-        count = 1
-        for file in files:
+        count = start + 1
+        for file in islice(files, start, None):
             time.sleep(0.2)
             print('({0}/{1}) - {2}'.format(count, total_files, file) )
             post_factory = PostFactory()
