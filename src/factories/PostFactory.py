@@ -1,4 +1,5 @@
 import json
+from src.models.posts.E621Post import E621Post
 from src.models.posts.SubscribestarPost import SubscribestarPost
 from src.models.posts.SankakuPost import SankakuPost
 from src.models.posts.DanbooruPost import DanbooruPost
@@ -24,6 +25,8 @@ class PostFactory(object):
             return AIBooruPost(file_path, metadata)
         if category == 'danbooru':
             return DanbooruPost(file_path, metadata)
+        if category == 'e621':
+            return E621Post(file_path, metadata)
         if category == 'sankaku':
             return SankakuPost(file_path, metadata)
         if category == 'sexcom':
