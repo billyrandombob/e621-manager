@@ -2,3 +2,4 @@ config/*.json
 env/
 *.pyc
 config/config.json.test
+config/config.json.local

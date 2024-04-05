@@ -32,7 +32,6 @@ class PostFactory(object):
         return Post(file_path)
     
     def create(self, file_path, use_metadata, rating, tags, source):
-        print('Creating Post:\nFile: {0}\nMeta: {1}\nRating: {2}\nTags: {3}'.format(file_path, use_metadata, rating, tags))
         post = None
         if use_metadata:
             post = self.create_metadata_item(file_path)

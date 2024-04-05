@@ -70,23 +70,38 @@ def upload_directory(config):
         total_files = len(files)
         source = None
         
+        wait_time = 1
         count = 1
         for file in files:
+            time.sleep(0.2)
+            print('({0}/{1}) - {2}'.format(count, total_files, file) )
+            post_factory = PostFactory()
+            post = post_factory.create(file, metadata, rating, extra_tags, source)
             
+            retries = 0
             success = False
             while success == False:
-                print('({0}/{1}) - {2}'.format(count, total_files, file) )
-                
-                post_factory = PostFactory()
-                post = post_factory.create(file, metadata, rating, extra_tags, source)
-                
-                
-                
                 response = ps.create_post(config, post, source)
-                print(response.text)
-                success = True
-                count = count + 1
-                time.sleep(0.2)
+                if response.status_code == 200:
+                    print('Successfully created')
+                    success = True
+                    count = count + 1
+                elif '"reason":"duplicate"' in response.text:
+                    print('Duplicate post. Skipping...')
+                    success = True
+                    count = count + 1
+                else:
+                    print('Failed to upload:\n{0}'.format(response.text))
+                    success = False
+                    retries += 1
+                    
+                    if retries >= 3:
+                        success = True
+                        print('Failed to upload afte 3 retries. Skipping...')
+                    else:
+                        wait_time = wait_time * retries
+                        print('Failed to upload:\n{0}\nRetry {1}/3 after {2} seconds'.format(response.text, retries, wait_time))
+                        time.sleep(wait_time)
 
     
 def upload_file(config):
