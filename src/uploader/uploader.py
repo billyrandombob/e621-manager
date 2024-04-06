@@ -1,4 +1,5 @@
 from itertools import islice
+import json
 from os import path, walk
 from pathlib import Path
 import time
@@ -100,7 +101,8 @@ def upload_directory(config):
             while success == False:
                 response = ps.create_post(config, post, source)
                 if response.status_code == 200:
-                    print(colored('Successfully created', 'green'))
+                    location = json.loads(response.text)['location']
+                    print(colored('Success! {0}'.format(location), 'green'))
                     success = True
                     count = count + 1
                 elif '"reason":"duplicate"' in response.text:
@@ -121,7 +123,7 @@ def upload_directory(config):
                     else:
                         wait_time = wait_time * retries
                         print(colored(
-                            'Failed to upload:\n\t{0}\nRetry {1}/{2} after {3} seconds'
+                            'Failed to upload:\n{0}\nRetry {1}/{2} after {3} seconds'
                             .format(response.text, retries, max_retries, wait_time),
                             'red'))
                         time.sleep(wait_time)
