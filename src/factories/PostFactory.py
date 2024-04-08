@@ -1,4 +1,6 @@
 import json
+from src.models.posts.Rule34UsPost import Rule34UsPost
+from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
 from src.models.posts.KonachanPost import KonachanPost
 from src.models.posts.E621Post import E621Post
@@ -31,6 +33,10 @@ class PostFactory(object):
             return E621Post(file_path, metadata)
         if category == 'konachan':
             return KonachanPost(file_path, metadata)
+        if category == 'patreon':
+            return PatreonPost(file_path, metadata)
+        if category == 'rule34us':
+            return Rule34UsPost(file_path, metadata)
         if category == 'sankaku':
             return SankakuPost(file_path, metadata)
         if category == 'sexcom':
