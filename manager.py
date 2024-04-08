@@ -8,11 +8,12 @@ from os import path
 from pathlib import Path
 import sys
 
-ROOT_DIR = Path(path.dirname(path.abspath(__file__))).parent
+ROOT_DIR = Path(path.dirname(path.abspath(__file__)))
 
 def get_config(p):
+    print(p.config)
     try:
-        with open('./config/config.json', 'r') as config_file:
+        with open(p.config, 'r') as config_file:
             return json.load(config_file)
     except:
         print("Invalid config file!")
@@ -44,6 +45,8 @@ def main():
             pm.manage_posts(config)
         elif selection == '2':
             tm.manage_tags(config)
+        elif selection == '3':
+            print('not implemented yet')
         elif selection == '4':
             um.manage_utils()
         

@@ -3,3 +3,4 @@ env/
 *.pyc
 config/config.json.test
 config/config.json.local
+config/config.json.u*
