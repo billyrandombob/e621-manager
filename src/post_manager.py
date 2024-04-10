@@ -1,3 +1,6 @@
+from typing import List
+from src.models.posts.Post import Post
+import src.services.post_service as ps
 import src.uploader.uploader as up
 
 def print_menu():
@@ -31,6 +34,44 @@ def upload_posts(config):
             print('uploading file')
         elif selection == '0':
             return
+        
+def delete_posts_by_search(config):
+    tags: str = input('Enter tags to search (leave blank to return):\n')
+    print()
+    
+    if tags.strip() == '':
+        return
+
+    posts = ps.search_posts(config, tags)
+
+    if posts == None or len(posts) == 0:
+        return
+
+    ps.delete_posts(config, posts)
+        
+def delete_posts(config):
+    selection: str = ''
+    while selection != '0':
+        print('Delete posts')
+        print('1 - By search ')
+        print('2 - By IDs')
+        print('3 - By ID range')
+        print('0 - Return')
+        selection = input('Selection: ')
+        print()
+
+        
+        if selection == '1':
+            delete_posts_by_search(config)
+            return
+        elif selection == '2':
+            #TODO: Delete posts with ids
+            print('Not Implemented\n')
+            return
+        elif selection == '3':
+            #TODO: Delete posts posts within range
+            print('Not Implemented\n')
+            return
     
 def manage_posts(config):
     selection: str = ''
@@ -49,8 +90,7 @@ def manage_posts(config):
             # remove_tags(config)
         elif selection == '4':
             #TODO: Delete Posts
-            print('Not Implemented\n')
-            # delete_posts(config)
+            delete_posts(config)
         elif selection == '5':
             #TODO: Add Posts to Favs
             print('Not Implemented\n')
