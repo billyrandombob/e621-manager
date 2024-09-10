@@ -1,4 +1,5 @@
 import json
+from src.models.posts.GelbooruPost import GelbooruPost
 from src.models.posts.Rule34UsPost import Rule34UsPost
 from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
@@ -31,6 +32,8 @@ class PostFactory(object):
             return DanbooruPost(file_path, metadata)
         if category == 'e621':
             return E621Post(file_path, metadata)
+        if category == 'gelbooru':
+            return GelbooruPost(file_path, metadata)
         if category == 'konachan':
             return KonachanPost(file_path, metadata)
         if category == 'patreon':
