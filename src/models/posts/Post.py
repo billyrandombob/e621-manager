@@ -1,13 +1,25 @@
 from os import path
 
 class Post:
-    def __init__(self, file_path):
-        self.tags = []
+    def __init__(self, file_path, source_string=None, tag_list=None, rating=None, prefix=None):
+        if tag_list == None:
+            self.tags = []
+        else:
+            self.tags = tag_list
+            
+        if source_string == None:
+            self.source = "local:{0}".format(path.basename(file_path))
+        else:
+            self.source = source_string
+        
+        if rating == None:
+            self.rating = 's'
+        else:
+            self.rating = rating
         self.file = file_path
-        self.source = "local:{0}".format(path.basename(file_path))
-        self.rating = 'safe'
-        self.category = ''
-    
+        self.clean_tags()
+        self.prepend_prefix(prefix)
+        
     def clean_tags(self):
         new_tags = []
         for tag in self.tags:

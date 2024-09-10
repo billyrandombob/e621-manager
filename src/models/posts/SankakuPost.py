@@ -14,7 +14,7 @@ class SankakuPost(Post):
         elif metadata['rating'] == 'e':
             self.rating = 'e'
         
-        self.tags = metadata['tag_string'].split()
+        self.tags = metadata['tags']
         self.tags.append(self.category)
         self.prepend_prefix('san')
         self.clean_tags()
