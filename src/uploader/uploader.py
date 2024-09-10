@@ -11,7 +11,7 @@ from src.factories.PostFactory import PostFactory
 
 YES_NO = ['y', 'Y', 'n', 'N']
 RATINGS = ['s', 'e', 'u', 'q', 'safe', 'explicit', 'questionable', 'suggestive']
-VALID_EXTENSIONS = ['.mp4', '.webm', '.jpg', '.jpeg', '.gif', '.png']
+VALID_EXTENSIONS = ['.mp4', '.webm', '.jpg', '.jpeg', '.gif', '.png', '.webp']
 
 def get_rating():
     selection = None
@@ -87,6 +87,7 @@ def upload_directory(config):
         total_files = len(files)
         source = None
         max_retries = config['max_retries']
+        max_timeout = config['max_timeout']
         
         count = start + 1
         for file in islice(files, start, None):
@@ -99,14 +100,15 @@ def upload_directory(config):
             retries = 0
             success = False
             while success == False:
-                response = ps.create_post(config, post, source)
+                response = ps.create_post(config, post)
+                resp_json = json.loads(response.text)
+                
                 if response.status_code == 200:
-                    location = json.loads(response.text)['location']
-                    print(colored('Success! {0}'.format(location), 'green'))
+                    print(colored('Success! {0}'.format(resp_json['location']), 'green'))
                     success = True
                     count = count + 1
                 elif '"reason":"duplicate"' in response.text:
-                    print(colored('Duplicate post. Skipping...', 'yellow'))
+                    print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
                     success = True
                     count += 1
                 else:
@@ -122,6 +124,10 @@ def upload_directory(config):
                         count += 1
                     else:
                         wait_time = wait_time * retries
+                        
+                        if wait_time > max_timeout:
+                            wait_time = max_timeout
+                        
                         print(colored(
                             'Failed to upload:\n{0}\nRetry {1}/{2} after {3} seconds'
                             .format(response.text, retries, max_retries, wait_time),

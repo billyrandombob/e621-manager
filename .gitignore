@@ -4,3 +4,4 @@ env/
 config/config.json.test
 config/config.json.local
 config/config.json.u*
+config/config.json.admin
