@@ -25,7 +25,7 @@ class DanbooruPost(Post):
         self.clean_tags()
 
     def get_description(self, metadata):
-        description = 'h4. Artist Commentary\n[b]Original[/b]\n'
+        description = 'h4. Artist Commentary\n[b][i]Original[/i][/b]\n'
         
         if metadata['artist_commentary']['original_title']:
             description += '[b]{0}[/b]'.format(metadata['artist_commentary']['original_title'])
@@ -34,7 +34,7 @@ class DanbooruPost(Post):
             description += '\n{0}'.format(metadata['artist_commentary']['original_description'])
         
         if metadata['artist_commentary']['translated_title'] or metadata['artist_commentary']['translated_description']:
-            description += '\n\n[b]Translated[/b]\n'
+            description += '\n\n[b][i]Translated[/i][/b]\n'
         
             if metadata['artist_commentary']['translated_title']:
                 description = '{0}[b]{1}[/b]'.format(description, metadata['artist_commentary']['translated_title'])
