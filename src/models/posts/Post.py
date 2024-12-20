@@ -1,7 +1,7 @@
 from os import path
 
 class Post:
-    def __init__(self, file_path, source_string=None, tag_list=None, rating=None, prefix=None):
+    def __init__(self, file_path, source_string=None, tag_list=None, rating=None, prefix=None, description=None):
         if tag_list == None:
             self.tags = []
         else:
@@ -16,6 +16,11 @@ class Post:
             self.rating = 's'
         else:
             self.rating = rating
+            
+        if description == None:
+            self.description = ''
+        else:
+            self.description = description
         self.file = file_path
         self.clean_tags()
         self.prepend_prefix(prefix)

@@ -38,7 +38,8 @@ def create_post(config, post: Post):
         headers=headers, files=files, data={
             'upload[rating]': post.rating,
             'upload[tag_string]': tags,
-            'upload[source]': post.source
+            'upload[source]': post.source,
+            'upload[description]': post.description
         }
     )
 
