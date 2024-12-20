@@ -1,11 +1,15 @@
 from src.models.posts.Post import Post
 
+
 class AIBooruPost(Post):
     def __init__(self, file_path, metadata):
         super().__init__(file_path)
         
         self.category = 'aibooru'
         self.source = '{0}%0Ahttps://aibooru.online/posts/{1}'.format(self.source, metadata['id'])
+        
+        if metadata['description']:
+            self.description = metadata['description']
         
         if metadata['rating'] == 'g':
             self.rating = 's'
