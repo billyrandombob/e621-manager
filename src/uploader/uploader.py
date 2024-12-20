@@ -113,6 +113,10 @@ def upload_directory(config):
                         print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
                         success = True
                         count += 1
+                    elif 'Validation failed: File ext application/x-matroska is invalid' in response.text:
+                        print(colored('Invalid format.\n{0}\n\nSkipping...'.format(response.text), 'red'))
+                        success = True
+                        count += 1
                     else:
                         success = False
                         retries += 1
