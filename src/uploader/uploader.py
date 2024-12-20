@@ -3,6 +3,7 @@ import json
 from os import path, walk
 from pathlib import Path
 import time
+from json.decoder import JSONDecodeError
 
 from termcolor import colored
 import src.services.post_service as ps
@@ -100,39 +101,51 @@ def upload_directory(config):
             retries = 0
             success = False
             while success == False:
-                response = ps.create_post(config, post)
-                resp_json = json.loads(response.text)
-                
-                if response.status_code == 200:
-                    print(colored('Success! {0}'.format(resp_json['location']), 'green'))
-                    success = True
-                    count = count + 1
-                elif '"reason":"duplicate"' in response.text:
-                    print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
-                    success = True
-                    count += 1
-                else:
-                    success = False
-                    retries += 1
+                try:
+                    response = ps.create_post(config, post)
+                    resp_json = json.loads(response.text)
                     
-                    if retries > max_retries:
+                    if response.status_code == 200:
+                        print(colored('Success! {0}'.format(resp_json['location']), 'green'))
                         success = True
-                        print(colored(
-                            'Failed to upload after {0} retries.\n\t{1}\n\tSkipping...'
-                            .format(max_retries, response.text), 
-                            'red'))
+                        count = count + 1
+                    elif '"reason":"duplicate"' in response.text:
+                        print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
+                        success = True
                         count += 1
                     else:
-                        wait_time = wait_time * retries
+                        success = False
+                        retries += 1
                         
-                        if wait_time > max_timeout:
-                            wait_time = max_timeout
-                        
-                        print(colored(
-                            'Failed to upload:\n{0}\nRetry {1}/{2} after {3} seconds'
-                            .format(response.text, retries, max_retries, wait_time),
-                            'red'))
-                        time.sleep(wait_time)
+                        if retries > max_retries:
+                            success = True
+                            print(colored(
+                                'Failed to upload after {0} retries.\n\t{1}\n\tSkipping...'
+                                .format(max_retries, response.text), 
+                                'red'))
+                            count += 1
+                        else:
+                            wait_time = wait_time * retries
+                            
+                            if wait_time > max_timeout:
+                                wait_time = max_timeout
+                            
+                            print(colored(
+                                'Failed to upload:\n{0}\nRetry {1}/{2} after {3} seconds'
+                                .format(response.text, retries, max_retries, wait_time),
+                                'red'))
+                            time.sleep(wait_time)
+                except JSONDecodeError as e:
+                    print(colored('Error decoding response JSON\n\n{0}'.format(e), 'red'))
+                    retries += 1
+                    success = False
+                    wait_time = wait_time * retries
+                    print(colored('Retrying in {0} seconds...'.format(wait_time), 'red'))
+                except Exception as e:
+                    print(colored('Unknown error\n\n{0}'.format(e), 'red'))
+                    retries += 1
+                    success = False
+                    
 
     
 def upload_file(config):
