@@ -7,7 +7,10 @@ class E621Post(Post):
 
         self.category = 'e621'
         self.source = '{0}%0Ahttps://e621.net/posts/{1}'.format(self.source, metadata['id'])
-
+        
+        if metadata['description']:
+            self.description = metadata['description']
+        
         meta_tags = metadata['tags']
         self.tags.extend(meta_tags['artist'])
         self.tags.extend(meta_tags['character'])
