@@ -16,7 +16,7 @@ class DanbooruPost(Post):
         elif metadata['rating'] == 'e':
             self.rating = 'e'
             
-        if metadata['artist_commentary']:
+        if 'artist_commentary' in metadata:
             self.description = self.get_description(metadata)
         
         self.tags = metadata['tag_string'].split()
@@ -25,7 +25,7 @@ class DanbooruPost(Post):
         self.clean_tags()
 
     def get_description(self, metadata):
-        description = 'h4. Artist Commentary\noriginal\n'
+        description = 'h4. Artist Commentary\nOriginal\n'
         
         if metadata['artist_commentary']['original_title']:
             description += '[b]{0}[/b]'.format(metadata['artist_commentary']['original_title'])
