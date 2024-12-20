@@ -13,9 +13,9 @@ class GelbooruPost(Post):
 
         self.rating = metadata['rating']
         
-        if metadata['rating'] == 'safe':
+        if metadata['rating'] == 'safe' or metadata['rating'] == 'general':
             self.rating = 's'
-        elif metadata['rating'] == 'questionable':
+        elif metadata['rating'] == 'questionable' or metadata['rating'] == 'sensitive':
             self.rating = 'q'
         elif metadata['rating'] == 'explicit':
             self.rating = 'e'
