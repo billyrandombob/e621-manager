@@ -6,6 +6,7 @@ from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
 from src.models.posts.KonachanPost import KonachanPost
 from src.models.posts.E621Post import E621Post
+from src.models.posts.PixivPost import PixivPost
 from src.models.posts.SubscribestarPost import SubscribestarPost
 from src.models.posts.SankakuPost import SankakuPost
 from src.models.posts.DanbooruPost import DanbooruPost
@@ -39,6 +40,8 @@ class PostFactory(object):
             return KonachanPost(file_path, metadata)
         if category == 'patreon':
             return PatreonPost(file_path, metadata)
+        if category == 'pixiv':
+            return PixivPost(file_path, metadata)
         if category == 'reddit':
             return RedditPost(file_path, metadata)
         if category == 'rule34us':
