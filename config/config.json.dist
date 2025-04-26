@@ -4,7 +4,7 @@
     "hostname": "http://localhost:3000",
     "max_retries": 3,
     "max_timeout": 60,
-    "posts_per_pags": 25,
+    "posts_per_page": 25,
     "szurubooru": {
         "username": "username",
         "token": "abcdeft",
