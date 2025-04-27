@@ -1,6 +1,8 @@
 import json
 from src.models.posts.RedditPost import RedditPost
 from src.models.posts.GelbooruPost import GelbooruPost
+from src.models.posts.FurbooruPost import FurbooruPost
+from src.models.posts.DerpibooruPost import DerpibooruPost
 from src.models.posts.Rule34UsPost import Rule34UsPost
 from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
@@ -32,8 +34,12 @@ class PostFactory(object):
             return AIBooruPost(file_path, metadata)
         if category == 'danbooru':
             return DanbooruPost(file_path, metadata)
+        if category == 'derpibooru':
+            return DerpibooruPost(file_path, metadata)
         if category == 'e621':
             return E621Post(file_path, metadata)
+        if category == 'furbooru':
+            return FurbooruPost(file_path, metadata)
         if category == 'gelbooru':
             return GelbooruPost(file_path, metadata)
         if category == 'konachan':
