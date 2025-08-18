@@ -133,6 +133,11 @@ def upload_directory(config):
                         print(colored('Skipping...', 'yellow'))
                         success = True
                         count += 1
+                    elif 'File is corrupt' in response.text:
+                        print(colored('Corrupt file', 'red'))
+                        print(colored('Skipping...', 'yellow'))
+                        success = True
+                        count += 1
                     else:
                         success = False
                         retries += 1
