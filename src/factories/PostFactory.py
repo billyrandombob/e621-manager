@@ -4,6 +4,7 @@ from src.models.posts.GelbooruPost import GelbooruPost
 from src.models.posts.FurbooruPost import FurbooruPost
 from src.models.posts.DerpibooruPost import DerpibooruPost
 from src.models.posts.Rule34UsPost import Rule34UsPost
+from src.models.posts.Rule34XxxPost import Rule34XxxPost
 from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
 from src.models.posts.KonachanPost import KonachanPost
@@ -50,6 +51,8 @@ class PostFactory(object):
             return PixivPost(file_path, metadata)
         if category == 'reddit':
             return RedditPost(file_path, metadata)
+        if category == 'rule34':
+            return Rule34XxxPost(file_path, metadata)
         if category == 'rule34us':
             return Rule34UsPost(file_path, metadata)
         if category == 'sankaku':
@@ -69,7 +72,7 @@ class PostFactory(object):
         if use_metadata:
             post = self.create_metadata_item(file_path)
         else:
-            post = Post(file_path)
+            post = Post(file_path, source_string=source)
             
         if rating:
             post.rating = rating
@@ -77,8 +80,8 @@ class PostFactory(object):
         if tags:
             post.tags.extend(tags.split())
             
-        if source:
-            post.source = source
+        # if source:
+        #     post.source = source
         
         return post
         

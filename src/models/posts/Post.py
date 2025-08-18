@@ -7,10 +7,9 @@ class Post:
         else:
             self.tags = tag_list
             
-        if source_string == None:
-            self.source = "local:{0}".format(path.basename(file_path))
-        else:
-            self.source = source_string
+        self.source = "local:{0}".format(path.basename(file_path))
+        if source_string != None:
+            self.source = '{0}%0A{1}'.format(self.source, source_string)
         
         if rating == None:
             self.rating = 's'

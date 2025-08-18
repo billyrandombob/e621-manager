@@ -10,9 +10,6 @@ def replace_html(html):
 
     for a in links:
 
-        print(a['href'])
-        print(a.contents[0])
-
         if a['href'] == a.contents[0]:
             a.replace_with(a['href'])
         else:
@@ -22,6 +19,7 @@ def replace_html(html):
     caption = soup.prettify()
 
     caption = caption.replace('<br />', '\n')
+    caption = caption.replace('<br/>', '\n')
     caption = caption.replace('&gt;&gt;', '>>')
     caption = caption.replace('<strong>', '[b]')
     caption = caption.replace('</strong>', '[/b]')
@@ -35,7 +33,7 @@ class PixivPost(Post):
         self.source = '{0}%0Ahttps://www.pixiv.net/en/artworks/{1}'.format(self.source, metadata['id'])
         
         if metadata['rating'] == 'General':
-            self.rating = 's'
+            self.rating = 'q'
         else:
             self.rating = 'e'
 
