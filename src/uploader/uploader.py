@@ -14,6 +14,15 @@ YES_NO = ['y', 'Y', 'n', 'N']
 RATINGS = ['s', 'e', 'u', 'q', 'safe', 'explicit', 'questionable', 'suggestive']
 VALID_EXTENSIONS = ['.mp4', '.webm', '.jpg', '.jpeg', '.gif', '.png', '.webp']
 
+def get_source():
+    source = input('Source: ').lower().strip()
+
+    if source == None or source == '':
+        print('No source provided.')
+        return None
+    
+    return source
+
 def get_rating():
     selection = None
     while selection not in RATINGS and selection != '':
@@ -86,7 +95,7 @@ def upload_directory(config):
         extra_tags = input('Add tags: ')
         rating = get_rating()
         total_files = len(files)
-        source = None
+        source = get_source()
         max_retries = config['max_retries']
         max_timeout = config['max_timeout']
         
@@ -113,8 +122,15 @@ def upload_directory(config):
                         print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
                         success = True
                         count += 1
-                    elif 'Validation failed: File ext application/x-matroska is invalid' in response.text:
-                        print(colored('Invalid format.\n{0}\n\nSkipping...'.format(response.text), 'red'))
+                    elif 'only jpg, png, gif, webm, mp4, and webp files are allowed' in response.text:
+
+                        if 'application/x-matroska' in response.text:
+                            print(colored('Invalid format (application/x-matroska).'.format(response.text), 'red'))
+                        elif 'image/webp' in response.text:
+                            print(colored('Invalid format (image/webp).'.format(response.text), 'red'))
+                        else:
+                            print(colored(response.text, 'red'))
+                        print(colored('Skipping...', 'yellow'))
                         success = True
                         count += 1
                     else:
