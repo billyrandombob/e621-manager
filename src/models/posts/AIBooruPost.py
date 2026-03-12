@@ -7,6 +7,9 @@ class AIBooruPost(Post):
         
         self.category = 'aibooru'
         self.source = '{0}%0Ahttps://aibooru.online/posts/{1}'.format(self.source, metadata['id'])
+
+        if metadata['source']:
+            self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
         
         if metadata['description']:
             self.description = metadata['description']

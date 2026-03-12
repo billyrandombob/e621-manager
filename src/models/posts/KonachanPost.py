@@ -8,6 +8,9 @@ class KonachanPost(Post):
         self.category = 'konachan'
         self.source = '{0}%0Ahttps://konachan.com/post/show/{1}'.format(self.source, metadata['id'])
 
+        if metadata['source']:
+            self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
+
         self.rating = metadata['rating']
         self.tags = metadata['tags'].split()
         self.prepend_prefix('kona')

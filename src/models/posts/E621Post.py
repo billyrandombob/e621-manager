@@ -7,6 +7,10 @@ class E621Post(Post):
 
         self.category = 'e621'
         self.source = '{0}%0Ahttps://e621.net/posts/{1}'.format(self.source, metadata['id'])
+
+        if metadata['sources']:
+            for source in metadata['sources']:
+                self.source = '{0}%0A{1}'.format(self.source, source)
         
         if metadata['description']:
             self.description = metadata['description']

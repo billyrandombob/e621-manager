@@ -7,6 +7,10 @@ class Rule34XxxPost(Post):
 
         self.category = 'rule3xxx'
         self.source = '{0}%0Ahttps://rule34.xxx/index.php?page=post&s=view&id={1}'.format(self.source, metadata['id'])
+        
+        if metadata['source']:
+            self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
+            
         self.rating="u"
         
         if metadata.get('tags'):

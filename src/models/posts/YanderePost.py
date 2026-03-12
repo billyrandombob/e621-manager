@@ -7,6 +7,9 @@ class YanderePost(Post):
         self.category = 'yandere'
         self.source = '{0}%0Ahttps://yande.re/post/show/{1}'.format(self.source, metadata['id'])
 
+        if metadata['source']:
+            self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
+
         self.rating = metadata['rating']
         self.tags = metadata['tags'].split()
         self.prepend_prefix('yand')

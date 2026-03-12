@@ -7,6 +7,9 @@ class DanbooruPost(Post):
         self.category = 'danbooru'
         self.source = '{0}%0Ahttps://danbooru.donmai.us/posts/{1}'.format(self.source, metadata['id'])
 
+        if metadata['source']:
+            self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
+
         self.tags = metadata['tag_string'].split()
         self.prepend_prefix('dan')
         
