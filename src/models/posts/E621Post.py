@@ -20,6 +20,13 @@ class E621Post(Post):
         self.tags.extend(meta_tags['meta'])
         self.tags.extend(meta_tags['species'])
         self.prepend_prefix('e621')
+        
+
+        if metadata['rating'] == 's' or metadata['rating'] == 'safe':
+            self.rating = 'g'
+        else:
+            self.rating = 'm'
+
+        self.tags.append('rating_request')
         self.tags.append('e621')
         self.clean_tags()
-        self.rating = metadata['rating']

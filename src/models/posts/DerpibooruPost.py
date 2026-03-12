@@ -14,19 +14,24 @@ class DerpibooruPost(Post):
         elif 'source_url' in metadata:
             self.source = '{0}%0A{1}'.format(self.source, metadata['source_url'])
 
+        self.tags = metadata['tags']
+        self.prepend_prefix('derp')
+
         if metadata['description']:
             self.description = metadata['description']
         
         if 'safe' in metadata['tags']:
-            self.rating = 's'
+            self.rating = 'g'
+            self.tags.append('safe')
         elif 'suggestive' in metadata['tags']:
-            self.rating = 'q'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         elif 'questionable' in metadata['tags']:
-            self.rating = 'u'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         elif 'explicit' in metadata['tags']:
-            self.rating = 'e'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         
-        self.tags = metadata['tags']
-        self.prepend_prefix('derp')
         self.tags.append(self.category)
         self.clean_tags()

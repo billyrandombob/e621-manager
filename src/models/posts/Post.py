@@ -12,7 +12,7 @@ class Post:
             self.source = '{0}%0A{1}'.format(self.source, source_string)
         
         if rating == None:
-            self.rating = 's'
+            self.rating = 'u'
         else:
             self.rating = rating
             

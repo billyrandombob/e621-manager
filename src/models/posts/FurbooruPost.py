@@ -10,19 +10,21 @@ class FurbooruPost(Post):
         for source in metadata['source_urls']:
             self.source = '{0}%0A{1}'.format(self.source, source)
 
+        self.tags = metadata['tags']
+        self.prepend_prefix('frb')
+
         if metadata['description']:
             self.description = metadata['description']
         
         if 'safe' in metadata['tags']:
-            self.rating = 's'
+            self.rating = 'g'
         elif 'suggestive' in metadata['tags']:
-            self.rating = 'q'
+            self.rating = 'm'
         elif 'questionable' in metadata['tags']:
-            self.rating = 'u'
+            self.rating = 'm'
         elif 'explicit' in metadata['tags']:
-            self.rating = 'e'
-        
-        self.tags = metadata['tags']
-        self.prepend_prefix('frb')
+            self.rating = 'm'
+
+        self.tags.append('rating_request')
         self.tags.append(self.category)
         self.clean_tags()

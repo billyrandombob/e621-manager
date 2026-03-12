@@ -11,6 +11,7 @@ class RedditPost(Post):
             self.tags.append(metadata['link_flair_text'].lower())
             
         self.description = 'h4.{0}'.format(metadata['title'])
+        self.rating = 'u'
         
         if metadata['selftext']:
             self.description = '{0}\n\n{1}\n\nPosted by u/{2}'.format(
@@ -18,6 +19,7 @@ class RedditPost(Post):
         
         self.prepend_prefix('red')
         self.tags.append('reddit')
+        self.tags.append("rating_request")
         self.clean_tags()
         
         

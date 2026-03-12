@@ -13,15 +13,23 @@ class SankakuPost(Post):
         self.source = '{0}%0Ahttps://chan.sankakucomplex.com/post/show/{1}'.format(self.source, id)
         self.source = '{0}%0Ahttps://chan.sankakucomplex.com/post/show/{1}'.format(self.source, md5)
         self.source = '{0}%0Ahttps://www.sankakucomplex.com/posts/{1}'.format(self.source, id)
+
+        self.tags = metadata['tags']
+        self.prepend_prefix('san')
         
         if metadata['rating'] == 's':
-            self.rating = 's'
+            self.rating = 'g'
+            self.tags.append('safe')
         elif metadata['rating'] == 'q':
-            self.rating = 'q'
+            self.rating = 'g'
+            self.tags.append('risque')
         elif metadata['rating'] == 'e':
-            self.rating = 'e'
+            self.rating = 'm'
+            self.tags.append('rating_request')
+        else:
+            self.rating = 'u'
+            self.tags.append('rating_request')
         
-        self.tags = metadata['tags']
+        
         self.tags.append(self.category)
-        self.prepend_prefix('san')
         self.clean_tags()

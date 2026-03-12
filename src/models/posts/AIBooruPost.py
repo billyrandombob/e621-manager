@@ -10,18 +10,23 @@ class AIBooruPost(Post):
         
         if metadata['description']:
             self.description = metadata['description']
+
+        self.tags = metadata['tag_string'].split()
+        self.prepend_prefix('aib')
         
         if metadata['rating'] == 'g':
-            self.rating = 's'
+            self.rating = 'g'
+            self.tags.append('safe')
         elif metadata['rating'] == 's':
-            self.rating = 'q'
+            self.rating = 'g'
+            self.tags.append('rating_request')
         elif metadata['rating'] == 'q':
-            self.rating = 'u'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         elif metadata['rating'] == 'e':
-            self.rating = 'e'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         
-        self.tags = metadata['tag_string'].split()
         self.tags.append(self.category)
-        self.prepend_prefix('aib')
         self.clean_tags()
         

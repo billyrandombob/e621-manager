@@ -11,18 +11,27 @@ class GelbooruPost(Post):
         if metadata['source']:
             self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
 
+        self.tags = metadata['tags'].split()
+        self.prepend_prefix('gel')
+
         self.rating = metadata['rating']
         
         if metadata['rating'] == 'safe' or metadata['rating'] == 'general':
-            self.rating = 's'
-        elif metadata['rating'] == 'questionable' or metadata['rating'] == 'sensitive':
-            self.rating = 'q'
+            self.rating = 'g'
+            self.tags.append('safe')
+        elif metadata['rating'] == 'sensitive':
+            self.rating = 'g'
+            self.tags.append('risque')
+        elif metadata['rating'] == 'questionable':
+            self.rating = 'm'
+            self.tags.append('risque')
         elif metadata['rating'] == 'explicit':
-            self.rating = 'e'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         
         
-        self.tags = metadata['tags'].split()
-        self.prepend_prefix('gel')
+        
+        
         self.tags.append('gelbooru')
         self.tags.append(metadata['extension'])
         self.clean_tags()

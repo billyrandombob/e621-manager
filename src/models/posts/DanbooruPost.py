@@ -6,22 +6,27 @@ class DanbooruPost(Post):
         
         self.category = 'danbooru'
         self.source = '{0}%0Ahttps://danbooru.donmai.us/posts/{1}'.format(self.source, metadata['id'])
+
+        self.tags = metadata['tag_string'].split()
+        self.prepend_prefix('dan')
         
         if metadata['rating'] == 'g':
-            self.rating = 's'
+            self.rating = 'g'
+            self.tags.append('safe')
         elif metadata['rating'] == 's':
-            self.rating = 'q'
+            self.rating = 'g'
+            self.tags.append('rating_request')
         elif metadata['rating'] == 'q':
-            self.rating = 'u'
+            self.rating = 'm'
+            self.tags.append('rating_request')
         elif metadata['rating'] == 'e':
-            self.rating = 'e'
+            self.rating = 'm'
+            self.tags.append('rating_request')
             
         if 'artist_commentary' in metadata:
             self.description = self.get_description(metadata)
         
-        self.tags = metadata['tag_string'].split()
         self.tags.append(self.category)
-        self.prepend_prefix('dan')
         self.clean_tags()
 
     def get_description(self, metadata):

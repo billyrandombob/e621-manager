@@ -7,11 +7,13 @@ class PatreonPost(Post):
 
         self.category = 'patreon'
         self.source = '{0}%0A{1}'.format(self.source, metadata['url'])
+        self.rating = 'u'
 
         self.tags = [tag.lower() for tag in metadata['tags']]
         self.tags.append(metadata['creator']['full_name'])
         self.tags.append(metadata['date'][:4])
         self.tags.append('{0}0s'.format(metadata['date'][:3]))
+        self.tags.append("rating_request")
         self.prepend_prefix('pat')
         self.tags.append('patreon')
         self.clean_tags()
