@@ -1,4 +1,5 @@
 import json
+from src.models.posts.TwitterPost import TwitterPost
 from src.models.posts.RedditPost import RedditPost
 from src.models.posts.GelbooruPost import GelbooruPost
 from src.models.posts.FurbooruPost import FurbooruPost
@@ -61,6 +62,8 @@ class PostFactory(object):
             return SexComPost(file_path, metadata)
         if category == 'subscribestar':
             return SubscribestarPost(file_path, metadata)
+        if category == 'twitter':
+            return TwitterPost(file_path, metadata)
         if category == 'yandere':
             return YanderePost(file_path, metadata)
         
