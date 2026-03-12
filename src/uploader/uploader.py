@@ -41,10 +41,10 @@ def get_rating():
     else:
         return None
 
-def include_metadata():
+def yes_no_confirm(prompt: str) -> bool:
     selection = ''
     while selection not in YES_NO:
-        selection = input('Include metadata? (y/n): ')
+        selection = input('{0} (y/n): '.format(prompt))
     
     if selection == 'y' or selection == 'Y':
         return True
@@ -82,6 +82,24 @@ def get_start():
             print(colored('Invalid number. Starting at 1', 'red'))
         return 0
     
+def get_md5(file):
+    import hashlib
+    hash_md5 = hashlib.md5()
+    with open(file, "rb") as f:
+        for chunk in iter(lambda: f.read(4096), b""):
+            hash_md5.update(chunk)
+    return hash_md5.hexdigest()
+    
+def delete_old_e621(old_config, file):
+    try:
+        md5 = get_md5(file)
+        posts = ps.search_posts(old_config, 'md5:{0}'.format(md5))
+        if posts and len(posts) > 0:
+            post = posts[0]
+            print(colored('Deleting old post with id {0} and md5:{1}'.format(post['id'], md5), 'yellow'))
+            ps.delete_post(old_config, post)
+    except Exception as e:
+        print(colored('Error occurred while trying to delete old post: {0}'.format(e), 'red'))
 
 def upload_directory(config):
     dir_str = input('Directory: ')
@@ -89,11 +107,12 @@ def upload_directory(config):
     
     if files:
         start = get_start()
-        metadata = include_metadata()
+        metadata = yes_no_confirm('Include metadata?')
         extra_tags = input('Add tags: ')
         rating = get_rating()
         total_files = len(files)
         source = get_source()
+        delete_old = yes_no_confirm('Delete old post on e621?')
         max_retries = config['max_retries']
         max_timeout = config['max_timeout']
         
@@ -114,10 +133,14 @@ def upload_directory(config):
                     
                     if response.status_code == 200:
                         print(colored('Success! {0}'.format(resp_json['location']), 'green'))
+                        if delete_old:
+                            delete_old_e621(config['me621'], file)
                         success = True
                         count = count + 1
                     elif '"reason":"duplicate"' in response.text:
                         print(colored('Duplicate post ({0}). Skipping...'.format(resp_json['post_id']), 'yellow'))
+                        if delete_old:
+                            delete_old_e621(config['me621'], file)
                         success = True
                         count += 1
                     elif 'only jpg, png, gif, webm, mp4, and webp files are allowed' in response.text:
@@ -183,7 +206,7 @@ def upload_file(config):
     filepath = Path(file_str)
     
     if filepath.exists():
-        metadata = include_metadata()
+        metadata = yes_no_confirm('Include metadata?')
         extra_tags = input('Add tags: ')
         rating = get_rating()
         source = input('Source: ')

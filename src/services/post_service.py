@@ -82,11 +82,10 @@ def update_post(config, post):
     return response
     
 def delete_post(config, post):
-    print('Deleting post {0}'.format(post))
+    print('Deleting post {0}'.format(post['id']))
     headers = get_headers(get_auth_token(config['username'], config['api_key']))
     response = requests.request(
-        'POST', '{0}/moderator/post/posts/{1}/expunge.json'.format(config['hostname'], post), headers=headers)
-
+        'POST', '{0}/moderator/post/posts/{1}/expunge.json'.format(config['hostname'], post['id']), headers=headers)
     print('Status: '.format(response.status_code))
     print('Response:\n'.format(response.text))
     
