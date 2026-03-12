@@ -11,8 +11,15 @@ class KonachanPost(Post):
         if metadata['source']:
             self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
 
-        self.rating = metadata['rating']
         self.tags = metadata['tags'].split()
         self.prepend_prefix('kona')
+
+
+        if metadata['rating'] == 's' or metadata['rating'] == 'safe':
+            self.rating = 'g'
+        else:
+            self.rating = 'm'
+
+        self.tags.append("rating_request")
         self.tags.append('konachan')
         self.clean_tags()
