@@ -169,6 +169,72 @@ def transfer_by_search(config):
                         .format(response.text, retries, max_retries, wait_time),
                         'red'))
                     time.sleep(wait_time)
+
+
+def rate_posts_by_search(config):
+    valid = ['s', 'safe', 'q', 'questionable', 'u', 'suggestive', 'e', 'explicit']
+    tags: str = input('Enter tags to search (leave blank to return):\n')
+    print()
+    
+    if tags.strip() == '':
+        return
+
+    posts = ps.search_posts(config, tags)
+
+    if posts == None or len(posts) == 0:
+        return
+    
+    print("Found {0} posts".format(len(posts)))
+
+    rating = ''
+
+    while rating not in valid:
+        rating:str = input('Enter rating (leave blank to return):\n')
+        rating = rating.lower().strip()
+        
+        if rating == '' or rating == None:
+            return
+        elif rating == 's' or rating == 'safe':
+            rating = 'safe'
+        elif rating == 'q' or rating == 'questionable':
+            rating = 'questionable'
+        elif rating == 'u' or rating == 'suggestive':
+            rating = 'suggestive'
+        elif rating == 'e' or rating == 'explicit':
+            rating = 'explicit'
+    
+    for post in post:
+        post.rating = rating
+        response = ps.update_post(config, post)
+
+        
+    
+
+    return
+
+def set_rating(config):
+    selection: str = ''
+    while selection != '0':
+        print('Rate posts')
+        print('1 - By search ')
+        print('2 - By IDs')
+        print('3 - By ID range')
+        print('0 - Return')
+        selection = input('Selection: ')
+        print()
+
+        
+        if selection == '1':
+            rate_posts_by_search(config)
+            return
+        elif selection == '2':
+            #TODO: Delete posts with ids
+            print('Not Implemented\n')
+            return
+        elif selection == '3':
+            #TODO: Delete posts posts within range
+            print('Not Implemented\n')
+            return
     
         
 def transfer_media(config):
@@ -216,8 +282,7 @@ def manage_posts(config):
             #TODO: Add Posts to Favs
             print('Not Implemented\n')
         elif selection == '6':
-            #TODO: Change Posts Safety
-            print('Not Implemented\n')
+            set_rating(config)
         elif selection == '7':
             #TODO: Add Posts to Pool
             print('Not Implemented\n')

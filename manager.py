@@ -48,7 +48,7 @@ def main():
         elif selection == '3':
             print('not implemented yet')
         elif selection == '4':
-            um.manage_utils()
+            um.manage_utils(config)
         
 main()
     

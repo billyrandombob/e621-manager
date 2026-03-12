@@ -58,7 +58,7 @@ def search_posts(config, terms: str) -> List[Post]:
         print(responseJSON)
         print(response.text)
     
-    while len(responseJSON['posts']) == config['posts_per_page']:
+    while len(responseJSON['posts']) >= config['posts_per_page']:
         print('Fetching page {0}'.format(total_pages+1))
         response = requests.request(
             'GET', '{0}/posts.json?page={1}&tags={2}'.format(config['hostname'], total_pages + 1, terms),
@@ -71,6 +71,15 @@ def search_posts(config, terms: str) -> List[Post]:
     print('Total Pages: {0}'.format(total_pages))
     print('Total Posts: {0}'.format(len(posts)))
     return posts
+
+def update_post(config, post):
+    print('Updating post {0}'.format(post))
+    headers = get_headers(get_auth_token(config['username'], config['api_key']))
+    response = requests.request(
+        'PATCH', '{0}/posts/{1}.json'.format(config['hostname'], post.id), headers=headers, data=post)
+    print('Status: '.format(response.status_code))
+    print('Response:\n'.format(response.text))
+    return response
     
 def delete_post(config, post):
     print('Deleting post {0}'.format(post))
