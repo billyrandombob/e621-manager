@@ -11,5 +11,10 @@
         "hostname": "http://localhost:8080/",
         "page_size": 25,
         "media_directory": "path"
+    },
+    "me621": {
+        "username": "username",
+        "api_key": "your_api_key_here",
+        "hostname": "https://192.168.0.111:3000"
     }
 }
