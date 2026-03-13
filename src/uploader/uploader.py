@@ -97,7 +97,11 @@ def delete_old_e621(old_config, file):
         if posts and len(posts) > 0:
             post = posts[0]
             print(colored('Deleting old post with id {0} and md5:{1}'.format(post['id'], md5), 'yellow'))
-            ps.delete_post(old_config, post)
+            response = ps.delete_post(old_config, post)
+            if response.status_code == 201:
+                print(colored('Successfully deleted old post', 'green'))
+            else:
+                print(colored('Failed to delete old post', 'red'))
     except Exception as e:
         print(colored('Error occurred while trying to delete old post: {0}'.format(e), 'red'))
 
@@ -187,7 +191,7 @@ def upload_directory(config):
                                 'red'))
                             time.sleep(wait_time)
                 except JSONDecodeError as e:
-                    print(colored('Error decoding response JSON\n\n{0}'.format(e), 'red'))
+                    print(colored('Error decoding response JSON\n{0}\n'.format(e), 'red'))
                     retries += 1
                     success = False
                     wait_time = wait_time * retries

@@ -86,8 +86,7 @@ def delete_post(config, post):
     headers = get_headers(get_auth_token(config['username'], config['api_key']))
     response = requests.request(
         'POST', '{0}/moderator/post/posts/{1}/expunge.json'.format(config['hostname'], post['id']), headers=headers)
-    print('Status: '.format(response.status_code))
-    print('Response:\n'.format(response.text))
+    return response
     
 def delete_posts(config, posts):
     count = 0
