@@ -93,7 +93,13 @@ def delete_posts(config, posts):
     for post in posts:
         count += 1
         print('Deleting post {0} of {1}'.format(count, len(posts)))
-        delete_post(config, post['id'])
+        response = delete_post(config, post)
+        if response.status_code == 201:
+            print('Successfully deleted post {0}'.format(post['id']))
+        else:
+            print('Failed to delete post {0}'.format(post['id']))
+            print('Response:\n{0}'.format(response.text))
+
         
 def search_szuru_posts(config, terms: str):
     current_page = 0
