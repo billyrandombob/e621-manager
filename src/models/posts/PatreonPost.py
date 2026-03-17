@@ -7,19 +7,15 @@ class PatreonPost(Post):
         description = ''
 
         if metadata['title']:
-            print('Title: {0}'.format(metadata['title']))
             description = 'h4. {0}'.format(metadata['title'])
         if metadata['content']:
-            print('Content: {0}'.format(metadata['content']))
             if description == '':
                 description = '{0}'.format(metadata['content'])
             else:
                 description = '{0}\n{1}'.format(description, metadata['content'])
         if description == '':
-            print('No description')
             return ''
         description = convert_to_dtext(description)
-        print("Description:\n{0}".format(description))
         return description
 
     def __init__(self, file_path, metadata):

@@ -15,7 +15,6 @@ def replace_html_headers(html: str) -> str:
     html = html.replace('</h5>', '\n')
     html = html.replace('<h6>', 'h5. ')
     html = html.replace('</h6>', '\n')
-    print("Headers replaced:\n{0}".format(html))
     return html
 
 def replace_html_bold(html: str) -> str:
@@ -25,7 +24,6 @@ def replace_html_bold(html: str) -> str:
     html = html.replace('</strong>', '[/b]')
     html = html.replace('<b>', '[b]')
     html = html.replace('</b>', '[/b]')
-    print
     return html
 
 def replace_html_underline(html: str) -> str:
@@ -33,7 +31,6 @@ def replace_html_underline(html: str) -> str:
             return ""
     html = html.replace('<u>', '[u]')
     html = html.replace('</u>', '[/u]')
-    print("Underline replaced:\n{0}".format(html))
     return html
 
 def replace_html_italics(html: str) -> str:
@@ -43,7 +40,6 @@ def replace_html_italics(html: str) -> str:
     html = html.replace('</i>', '[/i]')
     html = html.replace('<em>', '[i]')
     html = html.replace('</em>', '[/i]')
-    print("Italics replaced:\n{0}".format(html))
     return html
 
 def replace_html_strikethrough(html: str) -> str:
@@ -53,7 +49,6 @@ def replace_html_strikethrough(html: str) -> str:
     html = html.replace('</s>', '[/s]')
     html = html.replace('<strike>', '[s]')
     html = html.replace('</strike>', '[/s]')
-    print("Strikethrough replaced:\n{0}".format(html))
     return html
 
 def replace_html_paragraphs(html: str) -> str:
@@ -62,7 +57,6 @@ def replace_html_paragraphs(html: str) -> str:
     
     html = html.replace('<p>', '')
     html = html.replace('</p>', '\n')
-    print("Paragraphs replaced:\n{0}".format(html))
     return html
 
 def html_links_to_dtext(html: str) -> str:
@@ -84,7 +78,6 @@ def html_links_to_dtext(html: str) -> str:
             link.replace_with(text)
     
     # Return the modified HTML as string
-    print("Links replaced:\n{0}".format(str(soup)))
     return str(soup)
 
 def html_images_to_dtext(html: str) -> str:
@@ -105,7 +98,6 @@ def html_images_to_dtext(html: str) -> str:
             img.replace_with('')
     
     # Return the modified HTML as string
-    print("Images replaced:\n{0}".format(str(soup)))
     return str(soup)
 
 def convert_quotes_to_dtext(html: str) -> str:
@@ -113,7 +105,6 @@ def convert_quotes_to_dtext(html: str) -> str:
             return ""
     html = html.replace('<blockquote>', '[quote]')
     html = html.replace('</blockquote>', '[/quote]')
-    print("Quotes replaced:\n{0}".format(html))
     return html
 
 def convert_code_blocks_to_dtext(html: str) -> str:
@@ -121,7 +112,6 @@ def convert_code_blocks_to_dtext(html: str) -> str:
             return ""
     html = html.replace('<code>', '[code]')
     html = html.replace('</code>', '[/code]')
-    print("Code blocks replaced:\n{0}".format(html))
     return html
 
 def convert_tables_to_dtext(html: str) -> str:
@@ -137,7 +127,6 @@ def convert_tables_to_dtext(html: str) -> str:
     html = html.replace('</tbody>', '[/tbody]')
     html = html.replace('<thead>', '[thead]')
     html = html.replace('</thead>', '[/thead]')
-    print("Tables replaced:\n{0}".format(html))
     return html
 
 def convert_nested_lists_to_dtext(html: str) -> str:
@@ -203,17 +192,14 @@ def convert_nested_lists_to_dtext(html: str) -> str:
             textile_lines = process_list(list_element, 1)
             if textile_lines:
                 textile_text = '\n'.join(textile_lines)
-                print("Nested lists replaced:\n{0}".format(textile_text))
                 # Replace with textile text and add newlines for spacing
                 list_element.replace_with('\n' + textile_text + '\n')
         
         # Return the modified HTML
         html = str(soup)
-        print("Lists replaced:\n{0}".format(html))
         return html
     else:
         # No lists found, return original HTML
-        print("No lists found:\n{0}".format(html))
         return html
 
 
