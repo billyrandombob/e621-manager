@@ -1,3 +1,5 @@
+from importlib.metadata import metadata
+
 from src.lib.dtext_utils import convert_to_dtext
 from src.models.posts.Post import Post
 
@@ -27,11 +29,21 @@ class PatreonPost(Post):
 
         self.description = self.format_description(metadata)
 
+        name = metadata['creator']['full_name']
+
+        # Add patreon tags from post
+        # Use creator's name to make patreon tags unique to creator
+        # This is because patreon does not have standardized tags, 
+        # so we need to make them unique to avoid conflicts with other creators
         self.tags = [tag.lower() for tag in metadata['tags']]
-        self.tags.append(metadata['creator']['full_name'])
-        self.tags.append(metadata['date'][:4])
+        self.prepend_prefix('pat:{0}'.format(name))
+
+        # Add user / creator as general patreon tag
+        self.tags.append('<pat>user:{0}'.format(name))
+        
+        # Add various informational tags
         self.tags.append('{0}0s'.format(metadata['date'][:3]))
-        self.prepend_prefix('pat')
+        self.tags.append(metadata['date'][:4])
         self.tags.append("rating_request")
         self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()
