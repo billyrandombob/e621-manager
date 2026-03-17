@@ -18,5 +18,5 @@ class Rule34XxxPost(Post):
         
         self.prepend_prefix('r34x')
         self.tags.append("rating_request")
-        self.tags.append('rule34xxx')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

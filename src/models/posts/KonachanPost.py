@@ -21,5 +21,5 @@ class KonachanPost(Post):
             self.rating = 'm'
 
         self.tags.append("rating_request")
-        self.tags.append('konachan')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

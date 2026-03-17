@@ -9,7 +9,7 @@ class SexComPost(Post):
         self.source = '{0}%0Ahttps://www.sex.com/pin/{1}'.format(self.source, metadata['pin_id'])
         self.rating = 'e'
         self.tags = metadata['tags']
-        self.tags.append('sex.com')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.prepend_prefix('sxcm')
         self.clean_tags()
         

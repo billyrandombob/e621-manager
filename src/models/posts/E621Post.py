@@ -32,5 +32,5 @@ class E621Post(Post):
             self.rating = 'm'
 
         self.tags.append('rating_request')
-        self.tags.append('e621')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

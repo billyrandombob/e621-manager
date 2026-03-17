@@ -29,7 +29,7 @@ class DanbooruPost(Post):
         if 'artist_commentary' in metadata:
             self.description = self.get_description(metadata)
         
-        self.tags.append(self.category)
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()
 
     def get_description(self, metadata):

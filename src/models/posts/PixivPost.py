@@ -53,5 +53,5 @@ class PixivPost(Post):
         self.tags.append(metadata['type'])
         self.tags.append(metadata['user']['name'])
         self.prepend_prefix('pxv')
-        self.tags.append(self.category)
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

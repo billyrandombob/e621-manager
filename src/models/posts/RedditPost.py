@@ -18,7 +18,7 @@ class RedditPost(Post):
                 self.description, metadata['selftext'], metadata['author'])
         
         self.prepend_prefix('red')
-        self.tags.append('reddit')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.tags.append("rating_request")
         self.clean_tags()
         

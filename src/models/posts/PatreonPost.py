@@ -37,5 +37,5 @@ class PatreonPost(Post):
         self.tags.append('{0}0s'.format(metadata['date'][:3]))
         self.prepend_prefix('pat')
         self.tags.append("rating_request")
-        self.tags.append('patreon')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

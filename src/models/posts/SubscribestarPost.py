@@ -13,5 +13,5 @@ class SubscribestarPost(Post):
         self.prepend_prefix('subs')
         self.tags.append(metadata['date'][:4])
         self.tags.append('{0}0s'.format(metadata['date'][:3]))
-        self.tags.append('subscribestar')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

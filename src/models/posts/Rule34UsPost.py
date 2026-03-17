@@ -20,5 +20,5 @@ class Rule34UsPost(Post):
         if metadata.get('tags_metadata'):
             self.tags += metadata['tags_metadata'].split()
         self.prepend_prefix('r34u')
-        self.tags.append('rule34us')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()

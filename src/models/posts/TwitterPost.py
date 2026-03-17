@@ -20,6 +20,6 @@ class TwitterPost(Post):
         self.tags.append(metadata['author']['name'])
         
         self.prepend_prefix('twx')
-        self.tags.append(self.category)
+        self.tags.append('{0}_(source)'.format(self.category))
         self.tags.append("rating_request")
         self.clean_tags()

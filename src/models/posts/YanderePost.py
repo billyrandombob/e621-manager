@@ -19,5 +19,5 @@ class YanderePost(Post):
             self.rating = 'm'
         
         self.tags.append("rating_request")
-        self.tags.append('yandere')
+        self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()
