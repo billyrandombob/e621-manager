@@ -1,6 +1,5 @@
 from src.models.posts.Post import Post
 
-
 class AIBooruPost(Post):
     def __init__(self, file_path, metadata):
         super().__init__(file_path)
@@ -10,9 +9,6 @@ class AIBooruPost(Post):
 
         if metadata['source']:
             self.source = '{0}%0A{1}'.format(self.source, metadata['source'])
-        
-        if metadata['description']:
-            self.description = metadata['description']
 
         self.tags = metadata['tag_string'].split()
         self.prepend_prefix('aib')
@@ -29,7 +25,28 @@ class AIBooruPost(Post):
         elif metadata['rating'] == 'e':
             self.rating = 'm'
             self.tags.append('rating_request')
+
+        if 'artist_commentary' in metadata:
+            self.description = self.get_description(metadata)
         
         self.tags.append('{0}_(source)'.format(self.category))
         self.clean_tags()
+    
+    def get_description(self, metadata):
+        description = 'h4. Artist Commentary\n[b][i]Original[/i][/b]\n'
         
+        if metadata['artist_commentary']['original_title']:
+            description += '[b]{0}[/b]'.format(metadata['artist_commentary']['original_title'])
+            
+        if metadata['artist_commentary']['original_description']:
+            description += '\n{0}'.format(metadata['artist_commentary']['original_description'])
+        
+        if metadata['artist_commentary']['translated_title'] or metadata['artist_commentary']['translated_description']:
+            description += '\n\n[b][i]Translated[/i][/b]\n'
+        
+            if metadata['artist_commentary']['translated_title']:
+                description = '{0}[b]{1}[/b]'.format(description, metadata['artist_commentary']['translated_title'])
+            
+            if metadata['artist_commentary']['translated_description']:
+                description = '{0}\n{1}'.format(description, metadata['artist_commentary']['translated_description'])
+        return description
