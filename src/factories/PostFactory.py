@@ -1,4 +1,5 @@
 import json
+from src.models.posts.TheHentaiWorldPost import TheHentaiWorldPost
 from src.models.posts.TwitterPost import TwitterPost
 from src.models.posts.RedditPost import RedditPost
 from src.models.posts.GelbooruPost import GelbooruPost
@@ -6,6 +7,7 @@ from src.models.posts.FurbooruPost import FurbooruPost
 from src.models.posts.DerpibooruPost import DerpibooruPost
 from src.models.posts.Rule34UsPost import Rule34UsPost
 from src.models.posts.Rule34XxxPost import Rule34XxxPost
+from src.models.posts.PornhubPost import PornhubPost
 from src.models.posts.PatreonPost import PatreonPost
 from src.models.posts.YanderePost import YanderePost
 from src.models.posts.KonachanPost import KonachanPost
@@ -50,6 +52,8 @@ class PostFactory(object):
             return PatreonPost(file_path, metadata)
         if category == 'pixiv':
             return PixivPost(file_path, metadata)
+        if category == 'pornhub':
+            return PornhubPost(file_path, metadata)
         if category == 'reddit':
             return RedditPost(file_path, metadata)
         if category == 'rule34':
@@ -62,6 +66,8 @@ class PostFactory(object):
             return SexComPost(file_path, metadata)
         if category == 'subscribestar':
             return SubscribestarPost(file_path, metadata)
+        if category == 'thehentaiworld':
+            return TheHentaiWorldPost(file_path, metadata)
         if category == 'twitter':
             return TwitterPost(file_path, metadata)
         if category == 'yandere':
