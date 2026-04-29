@@ -107,7 +107,7 @@ def transfer_by_search(config):
     count = 1
     max_retries = config['max_retries']
     total_posts = len(posts)
-    for post in posts:
+    for post in posts[::-1]:
         print('({0}/{1}) Transferring post {2}...'.format(count, total_posts, post.id))
         if keep_tags == False:
             post.tags = []
